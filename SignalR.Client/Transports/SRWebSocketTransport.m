@@ -27,6 +27,7 @@
 #import "SRWebSocketConnectionInfo.h"
 #import "SRConnectionInterface.h"
 #import "SRConnectionExtensions.h"
+#import "SRBlockOperation.h"
 
 typedef void (^SRWebSocketStartBlock)(id response, NSError *error);
 
@@ -133,7 +134,7 @@ typedef void (^SRWebSocketStartBlock)(id response, NSError *error);
     [self setStartBlock:block];
     if (self.startBlock) {
         __weak __typeof(&*self)weakSelf = self;
-        self.connectTimeoutOperation = [NSBlockOperation blockOperationWithBlock:^{
+        self.connectTimeoutOperation = [SRTransportConnectTimeoutBlockOperation blockOperationWithBlock:^{
             __strong __typeof(&*weakSelf)strongSelf = weakSelf;
             if (strongSelf.startBlock) {
                 NSDictionary* userInfo = @{

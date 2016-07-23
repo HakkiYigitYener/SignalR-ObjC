@@ -20,10 +20,22 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
+#ifndef NS_DESIGNATED_INITIALIZER
+#if __has_attribute(objc_designated_initializer)
+#define NS_DESIGNATED_INITIALIZER __attribute__((objc_designated_initializer))
+#else
+#define NS_DESIGNATED_INITIALIZER
+#endif
+#endif
+
 #import <Foundation/Foundation.h>
 #import "SRClientTransportInterface.h"
 
 @interface SRHttpBasedTransport : NSObject <SRClientTransportInterface>
+
+@property (strong, nonatomic, readonly) NSURLSessionConfiguration *sessionConfiguration;
+
+- (instancetype)initWithSessionConfiguration:(nullable NSURLSessionConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 
 - (void)completeAbort;
 - (BOOL)tryCompleteAbort;

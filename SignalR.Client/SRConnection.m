@@ -244,8 +244,6 @@
         SRLogConnectionDebug(@"connection will abort transport");
         [_transport abort:self timeout:timeout connectionData:_connectionData];
         [self disconnect];
-        
-        _transport = nil;
     }
 }
 
@@ -258,6 +256,7 @@
         _monitor = nil;
         
         // Clear the state for this connection
+        _transport = nil;
         _connectionId = nil;
         _connectionToken = nil;
         _groupsToken = nil;
