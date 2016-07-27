@@ -43,11 +43,16 @@
         }
     ];
     self.detailViewController = [[self.splitViewController.viewControllers lastObject] topViewController];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.clearsSelectionOnViewWillAppear = self.splitViewController.isCollapsed;
     [super viewWillAppear:animated];
+    self.clearsSelectionOnViewWillAppear = self.splitViewController.isCollapsed;
+
 }
 
 - (void)didReceiveMemoryWarning {

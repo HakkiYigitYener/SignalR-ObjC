@@ -12,57 +12,70 @@
 
 @implementation SRMockNetwork
 
-+ (id)stub:(id)mock
-statusCode:(NSNumber *)statusCode
-      json:(id)json
-   success:(NSInteger)successIndex
-     error:(NSInteger)errorIndex {
++ (id)    stub:(id)mock
+    statusCode:(NSNumber *)statusCode
+          json:(id)json
+       success:(NSInteger)successIndex
+         error:(NSInteger)errorIndex
+{
+
     [[[mock stub] andDo:^(NSInvocation *invocation) {
-        if ([statusCode  isEqual: @200]) {
-            void (^successBlock)(AFHTTPRequestOperation *operation, id responseObject) = nil;
-            [invocation getArgument:&successBlock atIndex:successIndex];
-            if (successBlock) {
-                if ([json isKindOfClass:[NSString class]]) {
-                    [[[mock stub] andReturn:[json dataUsingEncoding:NSUTF8StringEncoding]] responseData];
-                    [[[mock stub] andReturn:json] responseString];
+        
+        void (^completionBlock)(NSURLResponse *response, id _Nullable responseObject, NSError *_Nullable error);
+        [invocation getArgument:&completionBlock atIndex:successIndex];
+        
+        if (completionBlock)
+        {
+            NSURLResponse *urlResponse = [[NSURLResponse alloc] initWithURL:[NSURL URLWithString:@"http://mock"]
+                                                                   MIMEType:nil
+                                                      expectedContentLength:-1
+                                                           textEncodingName:nil];
+            if ([statusCode isEqual:@200])
+            {
+
+
+                if ([json isKindOfClass:[NSString class]])
+                {
+                    completionBlock(urlResponse, json, nil);
                 } else if ([json isKindOfClass:[NSDictionary class]] ||
                            [json isKindOfClass:[NSSet class]] ||
-                           [json isKindOfClass:[NSArray class]]) {
+                           [json isKindOfClass:[NSArray class]])
+                {
                     NSData *responseData = [NSJSONSerialization dataWithJSONObject:json options:(NSJSONWritingOptions)0 error:NULL];
-                    NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-                    [[[mock stub] andReturn:responseData] responseData];
-                    [[[mock stub] andReturn:responseString] responseString];
+                    completionBlock(urlResponse, [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding], nil);
+
                 }
-                
-                successBlock(mock, json);
-            }
-        } else {
-            void (^errorBlock)(AFHTTPRequestOperation *operation, NSError *error) = nil;
-            [invocation getArgument:&errorBlock atIndex:errorIndex];
-            if (errorBlock) {
-                errorBlock(mock, json);
+
+                completionBlock(urlResponse, json, nil);
+            } else
+            {
+
+                completionBlock(urlResponse, nil, [NSError errorWithDomain:@"com.mock.signalR" code:[statusCode integerValue] userInfo:nil]);
             }
         }
-    }] setCompletionBlockWithSuccess:[OCMArg any] failure:[OCMArg any]];
+
+
+    }] dataTaskWithRequest:[OCMArg any] completionHandler:[OCMArg any]];
     return mock;
 }
 
 + (id)mockHttpRequestOperationForClass:(Class)aClass
                             statusCode:(NSNumber *)statusCode
-                                  json:(id)json {
-    return [[self class] mockHttpRequestOperationForClass:aClass statusCode:statusCode json:json success:2 error:3];
+                                  json:(id)json
+{
+    return [[self class] mockHttpRequestOperationForClass:aClass statusCode:statusCode json:json success:2 error:-1];
 }
-
 
 + (id)mockHttpRequestOperationForClass:(Class)aClass
                             statusCode:(NSNumber *)statusCode
                                   json:(id)json
                                success:(NSInteger)successIndex
-                                 error:(NSInteger)errorIndex {
-    id operationMock = [OCMockObject niceMockForClass:[AFHTTPRequestOperation class]];
+                                 error:(NSInteger)errorIndex
+{
+    id operationMock = [OCMockObject niceMockForClass:aClass];
     [[[operationMock stub] andReturn:operationMock] alloc];
     // And we stub initWithParam: passing the param we will pass to the method to test
-    [[[operationMock stub] andReturn:operationMock] initWithRequest:[OCMArg any]];
+    [[operationMock stub] dataTaskWithRequest:[OCMArg any] completionHandler:[OCMArg any]];
     return [[self class] stub:operationMock statusCode:statusCode json:json success:successIndex error:errorIndex];
 }
 
