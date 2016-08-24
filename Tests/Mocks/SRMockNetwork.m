@@ -8,7 +8,7 @@
 
 #import "SRMockNetwork.h"
 #import <OCMock/OCMock.h>
-#import <AFNetworking/AFNetworking.h>
+#import "CWNetworking.h"
 
 @implementation SRMockNetwork
 
@@ -19,7 +19,7 @@ statusCode:(NSNumber *)statusCode
      error:(NSInteger)errorIndex {
     [[[mock stub] andDo:^(NSInvocation *invocation) {
         if ([statusCode  isEqual: @200]) {
-            void (^successBlock)(AFHTTPRequestOperation *operation, id responseObject) = nil;
+            void (^successBlock)(CWHTTPRequestOperation *operation, id responseObject) = nil;
             [invocation getArgument:&successBlock atIndex:successIndex];
             if (successBlock) {
                 if ([json isKindOfClass:[NSString class]]) {
@@ -37,7 +37,7 @@ statusCode:(NSNumber *)statusCode
                 successBlock(mock, json);
             }
         } else {
-            void (^errorBlock)(AFHTTPRequestOperation *operation, NSError *error) = nil;
+            void (^errorBlock)(CWHTTPRequestOperation *operation, NSError *error) = nil;
             [invocation getArgument:&errorBlock atIndex:errorIndex];
             if (errorBlock) {
                 errorBlock(mock, json);
@@ -59,7 +59,7 @@ statusCode:(NSNumber *)statusCode
                                   json:(id)json
                                success:(NSInteger)successIndex
                                  error:(NSInteger)errorIndex {
-    id operationMock = [OCMockObject niceMockForClass:[AFHTTPRequestOperation class]];
+    id operationMock = [OCMockObject niceMockForClass:[CWHTTPRequestOperation class]];
     [[[operationMock stub] andReturn:operationMock] alloc];
     // And we stub initWithParam: passing the param we will pass to the method to test
     [[[operationMock stub] andReturn:operationMock] initWithRequest:[OCMArg any]];

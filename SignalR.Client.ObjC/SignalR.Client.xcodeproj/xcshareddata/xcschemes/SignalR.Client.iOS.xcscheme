@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0720"
+   LastUpgradeVersion = "0800"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -17,7 +17,7 @@
                BlueprintIdentifier = "39302A2D1C6978AB0061C6B5"
                BuildableName = "SignalR.framework"
                BlueprintName = "SignalR.Client.iOS"
-               ReferencedContainer = "container:SignalR.Client.ObjC.xcodeproj">
+               ReferencedContainer = "container:SignalR.Client.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -36,7 +36,7 @@
                BlueprintIdentifier = "39302A361C6978AC0061C6B5"
                BuildableName = "SignalR.Client.iOSTests.xctest"
                BlueprintName = "SignalR.Client.iOSTests"
-               ReferencedContainer = "container:SignalR.Client.ObjC.xcodeproj">
+               ReferencedContainer = "container:SignalR.Client.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -46,7 +46,7 @@
             BlueprintIdentifier = "39302A2D1C6978AB0061C6B5"
             BuildableName = "SignalR.framework"
             BlueprintName = "SignalR.Client.iOS"
-            ReferencedContainer = "container:SignalR.Client.ObjC.xcodeproj">
+            ReferencedContainer = "container:SignalR.Client.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -68,7 +68,7 @@
             BlueprintIdentifier = "39302A2D1C6978AB0061C6B5"
             BuildableName = "SignalR.framework"
             BlueprintName = "SignalR.Client.iOS"
-            ReferencedContainer = "container:SignalR.Client.ObjC.xcodeproj">
+            ReferencedContainer = "container:SignalR.Client.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -86,7 +86,7 @@
             BlueprintIdentifier = "39302A2D1C6978AB0061C6B5"
             BuildableName = "SignalR.framework"
             BlueprintName = "SignalR.Client.iOS"
-            ReferencedContainer = "container:SignalR.Client.ObjC.xcodeproj">
+            ReferencedContainer = "container:SignalR.Client.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

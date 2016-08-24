@@ -15,8 +15,8 @@
 @property (readwrite, nonatomic, strong) id dataDelegate;
 @property (readwrite, nonatomic, strong) id mock;
 //only call this directly if you don't want to trigger the stream.opened callback
-@property (readwrite, nonatomic, copy) void (^onSuccess)(AFHTTPRequestOperation *operation, id responseObject);
-@property (readwrite, nonatomic, copy) void (^onFailure)(AFHTTPRequestOperation *operation, NSError *error);
+@property (readwrite, nonatomic, copy) void (^onSuccess)(CWHTTPRequestOperation *operation, id responseObject);
+@property (readwrite, nonatomic, copy) void (^onFailure)(CWHTTPRequestOperation *operation, NSError *error);
 
 @end
 
@@ -29,11 +29,11 @@
     }
     __weak __typeof(&*self)weakSelf = self;
     
-    _mock = [OCMockObject niceMockForClass:[AFHTTPRequestOperation class]];
+    _mock = [OCMockObject niceMockForClass:[CWHTTPRequestOperation class]];
     [[[_mock stub] andDo:^(NSInvocation *invocation) {
         __strong __typeof(&*weakSelf)strongSelf = weakSelf;
-        void (^successOut)(AFHTTPRequestOperation *operation, id responseObject);
-        void (^failureOut)(AFHTTPRequestOperation *operation, NSError *error);
+        void (^successOut)(CWHTTPRequestOperation *operation, id responseObject);
+        void (^failureOut)(CWHTTPRequestOperation *operation, NSError *error);
         [invocation getArgument:&successOut atIndex:2];
         [invocation getArgument:&failureOut atIndex:3];
         [strongSelf setOnSuccess:successOut];

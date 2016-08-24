@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AFNetworking/AFNetworking.h>
+#import "CWNetworking.h"
 
 @interface SRMockSSENetworkStream : NSObject
 

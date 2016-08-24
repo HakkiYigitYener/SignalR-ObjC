@@ -2,15 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:SignalR.Client.ObjC/SignalR.Client.ObjC.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Example/SignalR.Client.ObjC Example.xcodeproj">
+      location = "group:SignalR.Client.ObjC/SignalR.Client.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Example/Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

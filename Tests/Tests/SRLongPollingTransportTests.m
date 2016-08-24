@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
-#import <AFNetworking/AFNetworking.h>
+#import "CWNetworking.h"
 #import "SRLongPollingTransport.h"
 #import "SRConnection.h"
 #import "SRConnectionInterface.h"
@@ -51,7 +51,7 @@
     SRLongPollingTransport* lp = [[ SRLongPollingTransport alloc] init];
     lp.pollingOperationQueue = nil;//set to nil to get around weird ARC OCMock bugs http://stackoverflow.com/questions/18121902/using-ocmock-on-nsoperation-gives-bad-access
 
-    id connect = [SRMockNetwork mockHttpRequestOperationForClass:[AFHTTPRequestOperation class]
+    id connect = [SRMockNetwork mockHttpRequestOperationForClass:[CWHTTPRequestOperation class]
                                                       statusCode:@200
                                                   responseString:@"abcdefg"];
     
@@ -86,7 +86,7 @@
     };
     [SRMockClientTransport negotiateForTransport:lp statusCode:@200 json:json];
     
-    id connect1 = [SRMockNetwork mockHttpRequestOperationForClass:[AFHTTPRequestOperation class]
+    id connect1 = [SRMockNetwork mockHttpRequestOperationForClass:[CWHTTPRequestOperation class]
                                                        statusCode:@500
                                                             error:[[NSError alloc] initWithDomain:@"Unit test" code:42 userInfo:nil]];
     lp.pollingOperationQueue = nil; //set to nil to get around weird ARC OCMock bugs http://stackoverflow.com/questions/18121902/using-ocmock-on-nsoperation-gives-bad-access
@@ -96,7 +96,7 @@
     [errorDelay.mock stopMocking];
     
     __block NSMutableURLRequest* request;
-    id connect2 = [OCMockObject niceMockForClass:[AFHTTPRequestOperation class]];
+    id connect2 = [OCMockObject niceMockForClass:[CWHTTPRequestOperation class]];
     [[[connect2 stub] andReturn:connect2] alloc];
     [[[connect2 stub] andDo:^(NSInvocation *invocation) {
         __unsafe_unretained NSMutableURLRequest *requestOut = nil;
@@ -126,7 +126,7 @@
         //By Design LP will poll immediately when getting data.  We dont care about the second poll so lets just eat it here.
     }] poll:[OCMArg any] connectionData:[OCMArg isNil] completionHandler:[OCMArg isNil]];
     
-    id connect = [SRMockNetwork mockHttpRequestOperationForClass:[AFHTTPRequestOperation class]
+    id connect = [SRMockNetwork mockHttpRequestOperationForClass:[CWHTTPRequestOperation class]
                                                       statusCode:@500
                                                            error:[[NSError alloc] initWithDomain:@"EXPECTED" code:NSURLErrorTimedOut userInfo:nil]];
     lp.pollingOperationQueue = nil; //set to nil to get around weird ARC OCMock bugs http://stackoverflow.com/questions/18121902/using-ocmock-on-nsoperation-gives-bad-access
@@ -149,7 +149,7 @@
     SRLongPollingTransport* lp = [[ SRLongPollingTransport alloc] init];
     lp.pollingOperationQueue = nil;//set to nil to get around weird ARC OCMock bugs http://stackoverflow.com/questions/18121902/using-ocmock-on-nsoperation-gives-bad-access
     
-    id connect = [SRMockNetwork mockHttpRequestOperationForClass:[AFHTTPRequestOperation class]
+    id connect = [SRMockNetwork mockHttpRequestOperationForClass:[CWHTTPRequestOperation class]
                                                       statusCode:@500
                                                            error:[[NSError alloc] initWithDomain:@"EXPECTED" code:NSURLErrorCancelled userInfo:nil]];
     

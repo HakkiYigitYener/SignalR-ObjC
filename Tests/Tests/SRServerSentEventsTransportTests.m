@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 #import "SRServerSentEventsTransport.h"
-#import <AFNetworking/AFNetworking.h>
+#import "CWNetworking.h"
 #import "SRConnection.h"
 #import "SRConnectionDelegate.h"
 #import "SRNegotiationResponse.h"
@@ -139,7 +139,7 @@
     SRServerSentEventsTransport* sse = [[SRServerSentEventsTransport alloc] init];
     sse.serverSentEventsOperationQueue = nil;//set to nil to get around weird ARC OCMock bugs http://stackoverflow.com/questions/18121902/using-ocmock-on-nsoperation-gives-bad-access
     
-    [SRMockNetwork mockHttpRequestOperationForClass:[AFHTTPRequestOperation class]
+    [SRMockNetwork mockHttpRequestOperationForClass:[CWHTTPRequestOperation class]
                                          statusCode:@400
                                               error:[[NSError alloc] initWithDomain:@"EXPECTED" code:42 userInfo:nil]];
 

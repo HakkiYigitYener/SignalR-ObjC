@@ -20,7 +20,7 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-#import <AFNetworking/AFNetworking.h>
+#import "CWNetworking.h"
 #import <SocketRocket/SRWebSocket.h>
 #import "SRWebSocketTransport.h"
 #import "SRLog.h"
@@ -125,7 +125,7 @@ typedef void (^SRWebSocketStartBlock)(id response, NSError *error);
         parameters = _parameters;
     }
     
-    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"GET" URLString:[_connectionInfo.connection.url stringByAppendingString:reconnecting ? @"reconnect" : @"connect"] parameters:parameters error:nil];
+    NSMutableURLRequest *request = [[CWHTTPRequestSerializer serializer] requestWithMethod:@"GET" URLString:[_connectionInfo.connection.url stringByAppendingString:reconnecting ? @"reconnect" : @"connect"] parameters:parameters error:nil];
     [_connectionInfo.connection prepareRequest:request]; //TODO: prepareRequest
     
     SRLogWSDebug(@"websocket will connect at url: %@",[request.URL absoluteString]);

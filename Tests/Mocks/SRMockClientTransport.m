@@ -8,7 +8,7 @@
 
 #import "SRMockClientTransport.h"
 #import <OCMock/OCMock.h>
-#import <AFNetworking/AFNetworking.h>
+#import "CWNetworking.h"
 #import "SRClientTransportInterface.h"
 #import "SRNegotiationResponse.h"
 
